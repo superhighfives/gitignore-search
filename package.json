@@ -1,7 +1,7 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
-  "name": "grab-gitignore",
-  "title": "Grab .gitignore",
+  "name": "gitignore-search",
+  "title": "Gitignore Search",
   "description": "Quickly search and copy .gitignore templates from GitHub straight to your clipboard",
   "icon": "command-icon.png",
   "author": "superhighfives",
@@ -9,7 +9,7 @@
   "commands": [
     {
       "name": "index",
-      "title": "Grab .gitignore",
+      "title": "GitIgnore Search",
       "description": "Search through a list of .gitignore files for popular languages",
       "mode": "view"
     }
