@@ -1,16 +1,16 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
-  "name": "fetch-gitignore",
-  "title": "Fetch .gitignore",
-  "description": "Copy the appropriate .gitignore from GitHub to your clipboard",
+  "name": "grab-gitignore",
+  "title": "Grab .gitignore",
+  "description": "Quickly search and copy .gitignore templates from GitHub straight to your clipboard",
   "icon": "command-icon.png",
   "author": "superhighfives",
   "license": "MIT",
   "commands": [
     {
       "name": "index",
-      "title": "Show List",
-      "description": "Template to show a list received from a networking response",
+      "title": "Grab .gitignore",
+      "description": "Search through a list of .gitignore files for popular languages",
       "mode": "view"
     }
   ],

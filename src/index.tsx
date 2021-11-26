@@ -1,4 +1,4 @@
-import { ActionPanel, CopyToClipboardAction, List, OpenInBrowserAction, showToast, ToastStyle, environment } from "@raycast/api";
+import { ActionPanel, CopyToClipboardAction, Icon, List, OpenInBrowserAction, showToast, ToastStyle, environment } from "@raycast/api";
 import { useState, useEffect } from "react";
 import fetch from "node-fetch";
 import fs from "fs";
@@ -25,7 +25,7 @@ export default function GitIgnoreList() {
         id="link"
         key="link"
         title="View Gitignore repository"
-        icon="list-icon.png"
+        icon={Icon.Link}
         actions={
           <ActionPanel>
             <OpenInBrowserAction url="https://github.com/github/gitignore" />
@@ -49,7 +49,7 @@ function GitIgnoreListItem(props: { gitignore: GitIgnore }) {
       id={gitignore.sha}
       key={gitignore.sha}
       title={gitignore.name.replace('.gitignore','')}
-      icon="list-icon.png"
+      icon={contentExists ? Icon.Document : Icon.Link}
       accessoryTitle={gitignore.name}
       subtitle={contentExists ? "" : "Open on GitHub.com"}
       actions={
