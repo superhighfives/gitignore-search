@@ -4,6 +4,9 @@ import fetch from "node-fetch";
 import fs from "fs";
 import path from "path";
 
+const GITHUB_URL = "https://github.com/github/gitignore";
+const FETCH_URL = "https://gitignore-fetch.superhighfives.workers.dev";
+
 export default function GitIgnoreList() {
   const [state, setState] = useState<{ files: GitIgnore[] }>({ files: [] });
 
@@ -28,7 +31,7 @@ export default function GitIgnoreList() {
         icon={Icon.Link}
         actions={
           <ActionPanel>
-            <OpenInBrowserAction url="https://github.com/github/gitignore" />
+            <OpenInBrowserAction url={GITHUB_URL} />
           </ActionPanel>
         }
       />
@@ -64,7 +67,7 @@ function GitIgnoreListItem(props: { gitignore: GitIgnore }) {
 
 async function fetchFiles(): Promise<GitIgnore[]> {
   try {
-    const response = await fetch("https://api.github.com/repos/github/gitignore/contents/");
+    const response = await fetch(FETCH_URL);
     const json = await response.json();
     return (json as Record<string, unknown>) as unknown as GitIgnore[];
   } catch (error) {
