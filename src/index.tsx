@@ -6,15 +6,14 @@ import {
   OpenInBrowserAction,
   showToast,
   ToastStyle,
-  environment,
 } from "@raycast/api";
 import { useState, useEffect } from "react";
 import fetch from "node-fetch";
 import fs from "fs";
 import path from "path";
 
-const GITHUB_URL = "https://github.com/github/gitignore/";
-const FETCH_URL = "https://gitignore-store.superhighfives.workers.dev/";
+const GITHUB_URL = "https://github.com/github/gitignore";
+const FETCH_URL = "https://gitignore-store.superhighfives.workers.dev";
 
 export default function GitIgnoreList() {
   const [state, setState] = useState<{ files: GitIgnore[] }>({ files: [] });
@@ -53,23 +52,19 @@ export default function GitIgnoreList() {
 
 function GitIgnoreListItem(props: { gitignore: GitIgnore }) {
   const gitignore = props.gitignore;
-  const contentPath = `${environment.assetsPath}/gitignore/${gitignore.path}`;
-  const contentExists = fs.existsSync(contentPath);
+  const contentPath = `${FETCH_URL}/${gitignore.path}`;
   return (
     <List.Item
       id={gitignore.sha}
       key={gitignore.sha}
       title={gitignore.name.replace(".gitignore", "")}
-      icon={contentExists ? Icon.Document : Icon.Link}
+      icon={Icon.Document}
       accessoryTitle={gitignore.name}
-      subtitle={contentExists ? "" : "Open on GitHub.com"}
       actions={
         <ActionPanel>
-          {contentExists && (
             <CopyToClipboardAction
-              content={fs.readFileSync(`${environment.assetsPath}/gitignore/${gitignore.path}`, "utf8")}
+              content={contentPath} // somehow load the data here
             />
-          )}
           <OpenInBrowserAction url={gitignore.download_url} />
         </ActionPanel>
       }
@@ -79,7 +74,7 @@ function GitIgnoreListItem(props: { gitignore: GitIgnore }) {
 
 async function fetchFiles(): Promise<GitIgnore[]> {
   try {
-    const response = await fetch("https://api.github.com/repos/github/gitignore/contents/");
+    const response = await fetch(FETCH_URL);
     const json = await response.json();
     return json as Record<string, unknown> as unknown as GitIgnore[];
   } catch (error) {
