@@ -19,14 +19,14 @@ export default function GitIgnoreList() {
   const [state, setState] = useState<{ files: GitIgnore[] }>({ files: [] });
 
   useEffect(() => {
-    async function fetch() {
+    async function fetchOutput() {
       const files = await fetchFiles();
       setState((oldState) => ({
         ...oldState,
         files: files.filter((file) => path.parse(file.path).ext === ".gitignore"),
       }));
     }
-    fetch();
+    fetchOutput();
   }, []);
 
   return (
@@ -51,8 +51,23 @@ export default function GitIgnoreList() {
 }
 
 function GitIgnoreListItem(props: { gitignore: GitIgnore }) {
+  const [state, setState] = useState<Record<string, string>>({});
+
   const gitignore = props.gitignore;
   const contentPath = `${FETCH_URL}/${gitignore.path}`;
+
+  useEffect(() => {
+    async function fetchOutput() {
+      const response = await fetch(contentPath);
+      const text = await response.text();
+      setState((oldState) => ({
+        ...oldState,
+        [gitignore.path]: text
+      }));
+    }
+    fetchOutput();
+  }, []);
+
   return (
     <List.Item
       id={gitignore.sha}
@@ -63,7 +78,7 @@ function GitIgnoreListItem(props: { gitignore: GitIgnore }) {
       actions={
         <ActionPanel>
             <CopyToClipboardAction
-              content={contentPath} // somehow load the data here
+              content={state[gitignore.path]}
             />
           <OpenInBrowserAction url={gitignore.download_url} />
         </ActionPanel>
