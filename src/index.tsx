@@ -35,7 +35,7 @@ export default function GitIgnoreList() {
       <List.Item
         id="link"
         key="link"
-        title="View Gitignore repository"
+        title="View GitIgnore repository"
         icon={Icon.Link}
         actions={
           <ActionPanel>
