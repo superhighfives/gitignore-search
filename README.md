@@ -1,11 +1,11 @@
-
 <img src="https://raw.githubusercontent.com/superhighfives/gitignore-search/main/assets/command-icon.png" width="64" />
 
 # GitIgnore Search for Raycast
 
-An extension for [Raycast](https://www.raycast.com) to quickly search and grab [.gitignore files](https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files) from the collection of templates available at [github/gitignore](https://github.com/github/gitignore).
+An extension for [Raycast](https://www.raycast.com) to quickly search and grab [.gitignore files](https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files) from the collection of templates available at [gitignore.io](https://gitignore.io/).
 
 To get started, run:
+
 ```bash
 npm install && npm run dev
 ```

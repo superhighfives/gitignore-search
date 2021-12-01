@@ -2,7 +2,7 @@
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "gitignore-search",
   "title": "Gitignore Search",
-  "description": "Quickly search and copy .gitignore templates from GitHub straight to your clipboard",
+  "description": "Quickly search and copy .gitignore templates from gitignore.io straight to your clipboard",
   "icon": "command-icon.png",
   "author": "superhighfives",
   "license": "MIT",
@@ -10,7 +10,7 @@
     {
       "name": "index",
       "title": "Search GitIgnore",
-      "subtitle": "GitHub",
+      "subtitle": "gitignore.io",
       "description": "Search through a list of .gitignore files for popular languages",
       "mode": "view"
     }
