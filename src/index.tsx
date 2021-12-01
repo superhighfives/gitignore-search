@@ -10,11 +10,11 @@ import {
 } from "@raycast/api";
 import { useState, useEffect } from "react";
 import fetch from "cross-fetch";
-import fs from "fs";
-import path from "path";
 
-const API_URL = "https://gitignore-fetch.superhighfives.workers.dev";
-const GITHUB_URL = "https://github.com/github/gitignore";
+const API_URL = "https://www.toptal.com/developers/gitignore/api/list?format=json";
+const GITHUB_URL = "https://github.com/toptal/gitignore/blob/master/templates"
+
+const getKeys = Object.keys as <T extends object>(obj: T) => Array<keyof T>
 
 export default function GitIgnoreList() {
   const [state, setState] = useState<{ files: GitIgnore[] }>({ files: [] });
@@ -24,7 +24,7 @@ export default function GitIgnoreList() {
       const files = await fetchFiles();
       setState((oldState) => ({
         ...oldState,
-        files: files.filter((file) => path.parse(file.path).ext === ".gitignore"),
+        files
       }));
     }
     fetch();
@@ -35,42 +35,38 @@ export default function GitIgnoreList() {
       <List.Item
         id="link"
         key="link"
-        title="View GitIgnore repository"
+        title="Visit GitIgnore.io"
         icon={Icon.Link}
         actions={
           <ActionPanel>
-            <OpenInBrowserAction url={GITHUB_URL} />
+            <OpenInBrowserAction url={"https://gitignore.io"} />
           </ActionPanel>
         }
       />
 
-      {state.files.map((gitignore) => (
-        <GitIgnoreListItem key={gitignore.sha} gitignore={gitignore} />
-      ))}
+      {(Object.keys(state.files) as Array<keyof typeof state.files>).sort().map((key) => {
+        const gitignore = state.files[key] as GitIgnore
+        return <GitIgnoreListItem key={gitignore.key} gitignore={gitignore} />
+      })}
     </List>
   );
 }
 
 function GitIgnoreListItem(props: { gitignore: GitIgnore }) {
   const gitignore = props.gitignore;
-  const contentPath = `${environment.assetsPath}/gitignore/${gitignore.path}`;
-  const contentExists = fs.existsSync(contentPath);
   return (
     <List.Item
-      id={gitignore.sha}
-      key={gitignore.sha}
-      title={gitignore.name.replace(".gitignore", "")}
-      icon={contentExists ? Icon.Document : Icon.Link}
-      accessoryTitle={gitignore.name}
-      subtitle={contentExists ? "" : "Open on GitHub.com"}
+      id={gitignore.key}
+      key={gitignore.key}
+      title={gitignore.name}
+      icon={Icon.Document}
+      accessoryTitle={gitignore.fileName}
       actions={
         <ActionPanel>
-          {contentExists && (
-            <CopyToClipboardAction
-              content={fs.readFileSync(`${environment.assetsPath}/gitignore/${gitignore.path}`, "utf8")}
-            />
-          )}
-          <OpenInBrowserAction url={gitignore.html_url} />
+          <CopyToClipboardAction
+            content={gitignore.contents}
+          />
+          <OpenInBrowserAction url={`${GITHUB_URL}/${gitignore.fileName}`} />
         </ActionPanel>
       }
     />
@@ -90,9 +86,8 @@ async function fetchFiles(): Promise<GitIgnore[]> {
 }
 
 type GitIgnore = {
-  sha: string;
+  fileName: string;
+  key: string;
+  contents: string;
   name: string;
-  path: string;
-  html_url: string;
-  type: string;
 };
