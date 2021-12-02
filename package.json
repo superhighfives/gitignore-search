@@ -32,8 +32,6 @@
   },
   "scripts": {
     "build": "ray build -e dist",
-    "dev": "ray develop",
-    "postinstall": "npm run generate-dataset",
-    "generate-dataset": "ts-node ./scripts/generate-dataset.ts"
+    "dev": "ray develop"
   }
 }
